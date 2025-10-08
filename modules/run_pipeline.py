@@ -17,7 +17,7 @@ from modules.batch_processing import sanitize_filename, generate_custom_id
 from modules.model_interaction import process_chunks, parse_retry_after, adaptive_delay
 from modules.postprocessing import reconcile_predictions
 from modules.evaluation import evaluate_response_with_metrics
-from config import MODEL_llama, few_shot_examples
+from config import MODEL_llama,MODEL_gpt_5_mini, few_shot_examples
 
 def perform_experiment(directory, base_output_directory, dataset_path, dtype, folder_path,  model, sample_size, use_custom_ocr, experiment_id, prompt_type, chunk_size_category, output_file=None, **kwargs):
     logging.info(f"Starting experiment with ID {experiment_id}")
@@ -38,6 +38,11 @@ def perform_experiment(directory, base_output_directory, dataset_path, dtype, fo
         existing_custom_ids = set()
         filename_mapping = {}
         task_counter = 0
+
+        if (model == MODEL_gpt_5_mini):
+            temperature = 1
+        else:
+            temperature = 0
         
         for template_type in template_types:
             files_list = list(categorized_files[level_type][template_type])
@@ -96,7 +101,7 @@ def perform_experiment(directory, base_output_directory, dataset_path, dtype, fo
                                         
                                         request_body = {
                                             "model": model,
-                                            "temperature": 0.0,
+                                            "temperature": temperature,
                                             "messages": [
                                                 {"role": "system", "content": "You are an LLM that extracts information from given document. Provide the extracted values in JSON format."},
                                                 {"role": "user", "content": str(prompt)}

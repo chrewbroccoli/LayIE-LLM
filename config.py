@@ -3,8 +3,15 @@ import os
 from dotenv import load_dotenv
 
 # Load the .env file
-dotenv_path = os.path.join(os.getcwd(), "keys.env")
-load_dotenv(dotenv_path)
+#dotenv_path = os.path.join(os.getcwd(), "keys.env")
+#print(os.getcwd())
+#load_dotenv(dotenv_path)
+#print(os.getenv("api_key_gpt"))
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+dotenv_path = os.path.join(BASE_DIR, "keys.env")
+load_dotenv(dotenv_path)  # load that exact file
+
 
 # parent_dir = os.path.dirname(os.getcwd())
 # dotenv_path = os.path.join(parent_dir, "keys.env")
@@ -18,6 +25,8 @@ hf_token = os.getenv("hf_token")
 MODEL_llama = 'llama3-70b-8192'
 MODEL_gpt_3 = 'gpt-3.5-turbo'
 MODEL_gpt_4 = 'gpt-4o'
+MODEL_local = 'local'
+MODEL_gpt_5_mini = 'gpt-5-mini'
 
 folder_path_reg = "vrdu2/registration-form/main/pdfs"
 folder_path_ad = "vrdu2/ad-buy-form/main/pdfs"
